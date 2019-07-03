@@ -19,7 +19,7 @@ def sagee(Creditamt,Duration,pCarX,pDom,pEduX,pFurX,pRadX,pRepX,pVacX,Sex,ownHou
 
 
 
-    runtime = boto3.Session().client(service_name='sagemaker-runtime',region_name='us-east-2')
+     = boto3.Session().client(service_name='sagemaker-runtime',region_name='us-east-2')
     
     listParm = [Creditamt,Duration,pCarX,pDom,pEduX,pFurX,pRadX,pRepX,pVacX,Sex,ownHouse,rentHouse,savingModX,savingNoInfX,
                 savingMiddleX,savingsRichX,checkModX,checkNoInX,checkRichX,ageCatYoungX,ageCatAdult,ageCatSenX,job1,job2,job3]
