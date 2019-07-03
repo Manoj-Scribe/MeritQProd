@@ -6,7 +6,7 @@ module to process teh data
 """
 import json
 import datetime
-import boto3
+
 import os
 import io
 import csv
