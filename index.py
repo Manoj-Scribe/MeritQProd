@@ -6,11 +6,13 @@ main module to process teh data
 """
 import json
 import datetime
-
+import boto3
 import os
 import io
 import csv
 from connectsage import sagee
+from boto3.dynamodb.conditions import Key, Attr
+from botocore.exceptions import ClientError
 
 runtime = boto3.Session().client(service_name='sagemaker-runtime',region_name='us-east-2')
 
@@ -157,14 +159,32 @@ def lambda_handler(event, context):
     print(result)
     
     if result > 500:
-        result_check = "Accepted"
-    else:
+       
         result_check = "Declined"
+    else:
+         result_check = "Accepted"
+    
+    #Add the incoming record into dynomo DB logs 
+    dynamodb = boto3.resource("dynamodb", region_name='us-east-2', endpoint_url="https://dynamodb.us-east-2.amazonaws.com")
+    table = dynamodb.Table('MeritQDynamo')    
+    
+     dynamo = boto3.resource('dynamodb').Table(TABLE_NAME)
     
     
+    
+    
+    
+    #inserting the item from the responce
+        res = dynamo.put_item(Item = event.get('item'))
+        
+        if res["ResponseMetadata"]["HTTPStatusCode"] == 200 :
+            print("Item created successfuly")
+        else:
+            print("Failed to create Item")
     
 
-     
+    #return teh values
+    
     data = {
         'result' : result_check,
         'score'  : result
